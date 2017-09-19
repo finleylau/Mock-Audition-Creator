@@ -4,47 +4,60 @@ from termcolor import colored
 # This program generates a list of excerpts based on a series of file inputs containing lists of excerpts by instrument.
 
 def main():
-	# initialize sets
-	xylo = []
-	snare = []
-	bell = []
-	cymb = []
-	tamb = []
-	timp = []
 
-	# load excerpts into the sets
-	load(xylo,"xylophone.txt")
-	load(snare,"snare.txt")
-	load(bell,"bells.txt")
-	load(cymb,"cymbals.txt")
-	load(tamb,"tambourine.txt")
-	load(timp,"timpani.txt")
+	check_continue = True
+	list_counter = 1
 
-	# generate random list of excerpts based on user input and write them to a file
-	f = open("mockList.txt", "w+")
-	f.write("Mock Audition List\n\n")
+	while check_continue:
+		# initialize sets
+		xylo = []
+		snare = []
+		bell = []
+		cymb = []
+		tamb = []
+		timp = []
 
-	f.write("Xylophone Excerpts:\n")
-	randomList(xylo,int(input("how many xylo excerpts: ")), f)
+		# load excerpts into the sets
+		load(xylo,"xylophone.txt")
+		load(snare,"snare.txt")
+		load(bell,"bells.txt")
+		load(cymb,"cymbals.txt")
+		load(tamb,"tambourine.txt")
+		load(timp,"timpani.txt")
 
-	f.write("\nSnare Excerpts:\n")
-	randomList(snare,int(input("how many snare excerpts: ")), f)
+		# generate random list of excerpts based on user input and write them to a file
+		f = open("list{}.txt".format(list_counter), "w+")
+		f.write("Mock Audition List\n\n")
 
-	f.write("\nBell Excerpts:\n")
-	randomList(bell,int(input("how many bell excerpts: ")), f)
+		f.write("Xylophone Excerpts:\n")
+		randomList(xylo,int(input("how many xylo excerpts: ")), f)
+
+		f.write("\nSnare Excerpts:\n")
+		randomList(snare,int(input("how many snare excerpts: ")), f)
+
+		f.write("\nBell Excerpts:\n")
+		randomList(bell,int(input("how many bell excerpts: ")), f)
 	
-	f.write("\nCymbal Excerpts:\n")
-	randomList(cymb,int(input("how many cymb excerpts: ")), f)
+		f.write("\nCymbal Excerpts:\n")
+		randomList(cymb,int(input("how many cymb excerpts: ")), f)
 	
-	f.write("\nTambourine Excerpts:\n")
-	randomList(tamb,int(input("how many tamb excerpts: ")), f)
+		f.write("\nTambourine Excerpts:\n")
+		randomList(tamb,int(input("how many tamb excerpts: ")), f)
 	
-	f.write("\nTimpani Excerpts:\n")
-	randomList(timp,int(input("how many timp excerpts: ")), f)
+		f.write("\nTimpani Excerpts:\n")
+		randomList(timp,int(input("how many timp excerpts: ")), f)
 
-	f.close()
+		f.close()
 
-	return None
+		# check if continue
+		check = input("Do you want to make another list? Type Y or N: ")
+		if check == 'y' or check == 'Y':
+			check_continue = True
+			list_counter += 1
+		elif check == 'n' or check == 'N':
+			check_continue = False
+		else:
+			check_continue = False
 
 
 # creates lists of excerpts, where listName = list var. and excerptList = file w/ list of all excerpts
@@ -57,8 +70,6 @@ def load(listName,excerptList):
 		listName.append(line.strip("\n"))
 
 	excerpts.close()
-
-	return None
 
 # writes a list of random excerpts to an output file, where listName = list var., n = # excerpts chosen, and outfile = file to write the list to
 def randomList(listName,n,outfile):
@@ -76,8 +87,6 @@ def randomList(listName,n,outfile):
 	randIntList = random.sample(range(0,len(listName)),n)
 	for index in randIntList:
 		outfile.write(listName[index]+"\n")
-	
-	return None
 
 if __name__ == "__main__":
 	main()
